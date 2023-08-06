@@ -1,7 +1,8 @@
+import 'package:dio/dio.dart';
+
 import 'package:cinemapedia/config/constants/environment.dart';
 import 'package:cinemapedia/domain/datasources/movies_datasource.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
-import 'package:dio/dio.dart';
 
 class MoviedbDatasource extends MoviesDatasource {
   // Se configura el URL al que se realizan las peticiones
