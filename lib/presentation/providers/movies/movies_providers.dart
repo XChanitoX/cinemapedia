@@ -3,10 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:cinemapedia/domain/entities/movie.dart';
 
+// Provider para las películas que se están reproduciendo actualmente
 // El StateNotifierProvider es un proveedor de un etsaod que notifica su cambio
 final nowPlayingMoviesProvider =
     StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
   final fetchMoreMovies = ref.watch(movieRepositoryProvider).getNowPlaying;
+  return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
+});
+
+// Provider para las películas populares
+// Se envía el nuevo caso de uso que es obtener las películas populares
+final popularMoviesProvider =
+    StateNotifierProvider<MoviesNotifier, List<Movie>>((ref) {
+  final fetchMoreMovies = ref.watch(movieRepositoryProvider).getPopular;
   return MoviesNotifier(fetchMoreMovies: fetchMoreMovies);
 });
 
