@@ -18,8 +18,9 @@ class MovieMapNotifier extends StateNotifier<Map<String, Movie>> {
   MovieMapNotifier({required this.getMovie}) : super({});
 
   Future<void> loadMovie(String movieId) async {
-    if (state[movieId] != null)
+    if (state[movieId] != null) {
       return; // Para revisar si ya se ha cargado en cache
+    }
 
     final movie = await getMovie(movieId);
 
