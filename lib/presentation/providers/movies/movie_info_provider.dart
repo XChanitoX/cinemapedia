@@ -3,7 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cinemapedia/domain/entities/movie.dart';
 import '../providers.dart';
 
-final movieInfoProvider = StateNotifierProvider((ref) {
+final movieInfoProvider =
+    StateNotifierProvider<MovieMapNotifier, Map<String, Movie>>((ref) {
   final movieRepository = ref.watch(movieRepositoryProvider);
 
   return MovieMapNotifier(getMovie: movieRepository.getMovieById);
@@ -17,7 +18,8 @@ class MovieMapNotifier extends StateNotifier<Map<String, Movie>> {
   MovieMapNotifier({required this.getMovie}) : super({});
 
   Future<void> loadMovie(String movieId) async {
-    if (state[movieId] != null) return;
+    if (state[movieId] != null)
+      return; // Para revisar si ya se ha cargado en cache
 
     final movie = await getMovie(movieId);
 
