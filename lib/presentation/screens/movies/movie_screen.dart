@@ -92,8 +92,64 @@ class _MovieDetails extends StatelessWidget {
                 ))
           ]),
         ),
-        const SizedBox(height: 100),
+        _ActorsByMovie(movieId: movie.id.toString()),
+        const SizedBox(height: 50),
       ],
+    );
+  }
+}
+
+class _ActorsByMovie extends ConsumerWidget {
+  final String movieId;
+
+  const _ActorsByMovie({required this.movieId});
+
+  @override
+  Widget build(BuildContext context, ref) {
+    final actorsByMovie = ref.watch(actorsByMovieProvider);
+
+    if (actorsByMovie[movieId] == null) {
+      return const Center(child: CircularProgressIndicator(strokeWidth: 2));
+    }
+
+    final actors = actorsByMovie[movieId]!;
+
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+          scrollDirection: Axis.horizontal,
+          itemCount: actors.length,
+          itemBuilder: ((context, index) {
+            final actor = actors[index];
+
+            return Container(
+                padding: const EdgeInsets.all(8.0),
+                width: 135,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Actor photo
+                    ClipRRect(
+                      borderRadius: BorderRadius.circular(20),
+                      child: Image.network(actor.profilePath,
+                          width: 135, height: 180, fit: BoxFit.cover),
+                    ),
+
+                    // Nombre del actor
+                    const SizedBox(height: 5),
+
+                    Text(actor.name, maxLines: 2),
+
+                    Text(
+                      actor.character ?? '',
+                      maxLines: 2,
+                      style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.ellipsis),
+                    )
+                  ],
+                ));
+          })),
     );
   }
 }
@@ -112,8 +168,8 @@ class _CustomSliverAppBar extends StatelessWidget {
       foregroundColor: Colors.white,
       flexibleSpace: FlexibleSpaceBar(
         titlePadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-        title: Text(movie.title,
-            style: const TextStyle(fontSize: 20), textAlign: TextAlign.start),
+        //title: Text(movie.title,
+        //    style: const TextStyle(fontSize: 20), textAlign: TextAlign.start),
         background: Stack(children: [
           SizedBox.expand(
             child: Image.network(
