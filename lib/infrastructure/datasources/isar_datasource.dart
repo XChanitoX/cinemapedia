@@ -7,10 +7,10 @@ class IsarDatasource extends LocalStorageDataSource {
   late Future<Isar> db;
 
   IsarDatasource() {
-    db = OpenDB();
+    db = openDB();
   }
 
-  Future<Isar> OpenDB() async {
+  Future<Isar> openDB() async {
     final dir = await getApplicationDocumentsDirectory();
 
     if (Isar.instanceNames.isEmpty) {
